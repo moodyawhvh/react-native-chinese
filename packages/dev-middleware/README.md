@@ -1,3 +1,5 @@
+> 🌐 本文档由 [react/react-native](https://github.com/react/react-native) 翻译,英文原版见原项目。
+
 # @react-native/dev-middleware
 
 [![npm]](https://www.npmjs.com/package/@react-native/dev-middleware) [![npm downloads]](https://www.npmjs.com/package/@react-native/dev-middleware)
@@ -5,11 +7,11 @@
 [npm]: https://img.shields.io/npm/v/@react-native/dev-middleware.svg?color=blue
 [npm downloads]: https://img.shields.io/npm/dm/@react-native/dev-middleware.svg
 
-Dev server middleware supporting core React Native development features. This package is preconfigured in all React Native projects.
+支持 React Native 核心开发功能的开发服务器中间件。所有 React Native 项目中都已预配置了此包。
 
-## Usage
+## 用法
 
-Middleware can be attached to a dev server (e.g. [Metro](https://facebook.github.io/metro/docs/getting-started)) using the `createDevMiddleware` API.
+中间件可以通过 `createDevMiddleware` API 挂载到开发服务器(如 [Metro](https://facebook.github.io/metro/docs/getting-started))上。
 
 ```js
 import { createDevMiddleware } from '@react-native/dev-middleware';
@@ -28,79 +30,79 @@ function myDevServerImpl(args) {
     ...,
     unstable_extraMiddleware: [
       middleware,
-      // Optionally extend with additional HTTP middleware
+      // 可按需扩展额外的 HTTP 中间件
     ],
     websocketEndpoints: {
       ...websocketEndpoints,
-      // Optionally extend with additional WebSocket endpoints
+      // 可按需扩展额外的 WebSocket 端点
     },
   });
 }
 ```
 
-## Included middleware
+## 内置中间件
 
-`@react-native/dev-middleware` is designed for integrators such as [`@expo/dev-server`](https://www.npmjs.com/package/@expo/dev-server) and [`@react-native/community-cli-plugin`](https://github.com/facebook/react-native/tree/main/packages/community-cli-plugin). It provides a common default implementation for core React Native dev server responsibilities.
+`@react-native/dev-middleware` 面向集成方设计,例如 [`@expo/dev-server`](https://www.npmjs.com/package/@expo/dev-server) 和 [`@react-native/community-cli-plugin`](https://github.com/facebook/react-native/tree/main/packages/community-cli-plugin)。它为 React Native 开发服务器的核心职责提供一套通用的默认实现。
 
-We intend to keep this to a narrow set of functionality, based around:
+我们有意把功能收敛在一小范围内,围绕:
 
-- **Debugging** — The [Chrome DevTools protocol (CDP)](https://chromedevtools.github.io/devtools-protocol/) endpoints supported by React Native, including the Inspector Proxy, which facilitates connections with multiple devices.
-- **Dev actions** — Endpoints implementing core [Dev Menu](https://reactnative.dev/docs/debugging#accessing-the-dev-menu) actions, e.g. reloading the app, opening the debugger frontend.
+- **调试** —— React Native 支持的 [Chrome DevTools 协议(CDP)](https://chromedevtools.github.io/devtools-protocol/) 端点,包括 Inspector Proxy,它负责管理与多台设备的连接。
+- **开发操作** —— 实现核心 [Dev Menu](https://reactnative.dev/docs/debugging#accessing-the-dev-menu) 操作的端点,例如重新加载应用、打开调试器前端。
 
-### HTTP endpoints
+### HTTP 端点
 
 <small>`DevMiddlewareAPI.middleware`</small>
 
-These are exposed as a [`connect`](https://www.npmjs.com/package/connect) middleware handler, assignable to `Metro.runServer` or other compatible HTTP servers.
+这些端点以 [`connect`](https://www.npmjs.com/package/connect) 中间件处理器的形式暴露,可赋给 `Metro.runServer` 或其他兼容的 HTTP 服务器。
 
-#### GET `/json/list`, `/json` ([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))
+#### GET `/json/list`、`/json`([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))
 
-Returns the list of available WebSocket targets for all connected React Native app sessions.
+返回所有已连接 React Native 应用会话可用的 WebSocket 目标列表。
 
-#### GET `/json/version` ([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))
+#### GET `/json/version`([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))
 
-Returns version metadata used by Chrome DevTools.
+返回 Chrome DevTools 使用的版本元数据。
 
 #### GET `/debugger-frontend`
 
-Subpaths of this endpoint are reserved to serve the JavaScript debugger frontend.
+该端点的子路径被保留,用于提供 JavaScript 调试器前端。
 
 #### POST `/open-debugger`
 
-Open the JavaScript debugger for a given CDP target. Must be provided with one of the following query params:
+为指定的 CDP 目标打开 JavaScript 调试器。必须提供以下查询参数之一:
 
-- `device`‌ — An ID unique to a combination of device and app, stable across installs. Implemented by `getInspectorDeviceId` on each native platform.
-- `target` — The target page ID as returned by `/json/list` for the current dev server session.
-- `appId` (deprecated, legacy only) — The application bundle identifier to match (non-unique across multiple connected devices). This param will only match legacy Hermes debugger targets.
+- `device` —— 设备与应用组合的唯一 ID,跨安装保持稳定。由各原生平台上的 `getInspectorDeviceId` 实现。
+- `target` —— 当前开发服务器会话中由 `/json/list` 返回的目标页面 ID。
+- `appId`(已废弃,仅为兼容保留)—— 要匹配的应用包标识符(多台设备同时连接时不唯一)。此参数只匹配旧版 Hermes 调试器目标。
 
 <details>
-<summary>Example</summary>
+<summary>示例</summary>
 
     curl -X POST 'http://localhost:8081/open-debugger?target=<targetId>'
 </details>
 
-### WebSocket endpoints
+### WebSocket 端点
 
 <small>`DevMiddlewareAPI.websocketEndpoints`</small>
 
 #### `/inspector/device`
 
-WebSocket handler for registering device connections.
+用于注册设备连接的 WebSocket 处理器。
 
 #### `/inspector/debug`
 
-WebSocket handler that proxies CDP messages to/from the corresponding device.
+将 CDP 消息双向代理到对应设备的 WebSocket 处理器。
 
-## Experimental features
+## 实验性特性
 
-React Native frameworks may pass an `unstable_experiments` option to `createDevMiddleware` to configure experimental features. Note that these features might not work correctly, and they may change or be removed in the future without notice. Some of the experiment flags available are documented below.
+React Native 框架可以向 `createDevMiddleware` 传入 `unstable_experiments` 选项来启用实验性特性。注意:这些特性可能无法正常工作,未来可能随时变更或移除,恕不另行通知。部分可用的实验开关如下。
 
 ### `unstable_experiments.enableStandaloneFuseboxShell`
 
-Enables launching the debugger frontend in a standalone app shell (provided by the `@react-native/debugger-shell` package) rather than in a browser window. Since React Native 0.83 this defaults to `true`, and may be disabled by explicitly passing `false`.
+启用以独立应用外壳(由 `@react-native/debugger-shell` 包提供)而非浏览器窗口启动调试器前端。自 React Native 0.83 起默认为 `true`,可通过显式传入 `false` 关闭。
 
-The shell is powered by a separate binary that is downloaded and cached in the background (immediately after the call to `createDevMiddleware`). If there is a problem downloading or invoking this binary for the first time, the debugger frontend will revert to launching in a browser window until the next time `createDevMiddleware` is called (typically, on the next dev server start).
+该外壳由一个独立的二进制文件驱动,该文件会在后台(调用 `createDevMiddleware` 之后立即)下载并缓存。如果首次下载或调用该二进制文件失败,调试器前端将回退为在浏览器窗口中启动,直到下次调用 `createDevMiddleware`(通常是下次启动开发服务器时)。
 
-## Contributing
+## 参与贡献
 
-Changes to this package can be made locally and tested against the `rn-tester` app, per the [Contributing guide](https://reactnative.dev/contributing/overview#contributing-code). During development, this package is automatically run from source with no build step.
+对本包的改动可以在本地进行,并按照[贡献指南](https://reactnative.dev/contributing/overview#contributing-code)对照 `rn-tester` 应用测试。开发期间,本包直接从源码运行,无需构建步骤。

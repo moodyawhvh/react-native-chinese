@@ -1,36 +1,33 @@
-# _Subsystem name_
+> 🌐 本文档由 [react/react-native](https://github.com/react/react-native) 翻译,英文原版见原项目。
 
-[🏠 Home](path/to/main/__docs__/README.md)
+# _子系统名称_
 
-_Description of the subsystem with the necessary context._
+[🏠 主页](path/to/main/__docs__/README.md)
 
-## 🚀 Usage
+_描述该子系统,并提供必要的背景信息。_
 
-_Explanation of how the subsystem is used._
+## 🚀 用法
 
-## 📐 Design
+_解释该子系统是如何被使用的。_
 
-_Explain how the subsystem is designed, relevant implementation details, etc.
-Ideally include an Excalidraw diagram._
+## 📐 设计
 
-## 🔗 Relationship with other systems
+_解释该子系统的设计、相关实现细节等。理想情况下应附一张 Excalidraw 图。_
 
-### Part of
+## 🔗 与其他系统的关系
 
-- _A single bullet for the parent subsystem. Link to the documentation of that
-  subsystem if it exists._
+### 属于(Part of)
 
-### Part of this
+- _父子系统占一个条目。若该子系统的文档存在,请附链接。_
 
-- _One bullet point for each subsystem that is part of this one. Link to the
-  documentation of those subsystems if it exists._
+### 包含以下部分(Part of this)
 
-### Used by this
+- _本子系统包含的每个子系统各占一个条目。若对应文档存在,请附链接。_
 
-- _One bullet point for each subsystem used by this one, explaining why it uses
-  it and how. Link to the documentation of those subsystems if it exists._
+### 依赖以下部分(Used by this)
 
-### Uses this
+- _本子系统使用的每个子系统各占一个条目,说明为何使用以及如何使用。若对应文档存在,请附链接。_
 
-- _One bullet point for each subsystem using this one, explaining why it uses it
-  and how. Link to the documentation of those subsystems if it exists._
+### 被以下部分使用(Uses this)
+
+- _使用本子系统的每个子系统各占一个条目,说明为何使用以及如何使用。若对应文档存在,请附链接。_
