@@ -11,27 +11,26 @@
 'use client';
 
 /**
- * Sets up global variables typical in most JavaScript environments.
+ * 【中文注释】设置大多数 JavaScript 环境中常见的全局变量,包括:
  *
- *   1. Global timers (via `setTimeout` etc).
- *   2. Global console object.
- *   3. Hooks for printing stack traces with source maps.
+ *   1. 全局定时器(通过 `setTimeout` 等)。
+ *   2. 全局 console 对象。
+ *   3. 用于打印带 source map 堆栈信息的钩子。
  *
- * Leaves enough room in the environment for implementing your own:
+ * 同时为自行实现以下能力留出空间:
  *
- *   1. Require system.
- *   2. Bridged modules.
+ *   1. 模块引入(require)系统。
+ *   2. 桥接(Bridged)模块。
  *
- * @deprecated Since 0.87. Use `'react-native/setup-env'` instead.
+ * @deprecated 自 0.87 起废弃。请改用 `'react-native/setup-env'`。
  */
 
 'use strict';
 
-// NOTE: This delegates to the `'react-native/setup-env'` entry point (rather
-// than calling `setUpDefaultReactNativeEnvironment` directly) so that
-// `src/setup-env.js` is pulled into the module graph. Metro's
-// `getModulesRunBeforeMainModule` only runs modules that are already part of
-// the bundle, and `InitializeCore` is a guaranteed graph entry (via
-// `ReactNativePrivateInitializeCore`). This keeps `'react-native/setup-env'`
-// reachable so it runs before the main module.
+// 【中文注释】这里委托给 `'react-native/setup-env'` 入口(而不是直接调用
+// `setUpDefaultReactNativeEnvironment`),目的是把 `src/setup-env.js`
+// 纳入模块依赖图。Metro 的 `getModulesRunBeforeMainModule` 只会执行
+// 已经进入 bundle 的模块,而 `InitializeCore` 是必然存在的依赖图入口
+// (经由 `ReactNativePrivateInitializeCore`)。这样可以保证
+// `'react-native/setup-env'` 始终可达,并在主模块之前执行。
 require('../../src/setup-env');
