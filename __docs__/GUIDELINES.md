@@ -1,94 +1,67 @@
-# React Native Technical Documentation Guidelines
+> 🌐 本文档由 [react/react-native](https://github.com/react/react-native) 翻译,英文原版见原项目。
 
-_This is a document about documentation (hence the file name)._
+# React Native 技术文档编写指南
 
-## Motivation
+_这是一份关于文档的文档(文件名也因此而来)。_
 
-The goals of this documentation are:
+## 动机
 
-1. To make it easier for people to understand and contribute to the React Native
-   architecture.
-2. To ensure the architecture is easy to maintain, with clearly scoped
-   subsystems that are easy to reason about and change.
+这套文档的目标是:
 
-## Strategy
+1. 让人们更容易理解 React Native 架构并参与贡献。
+2. 确保架构易于维护:各子系统职责边界清晰,易于推理和修改。
 
-Our documentation supports the following use cases:
+## 策略
 
-1. (Exploration based) I want to understand how React Native works and learn
-   about its different parts. I want to explore.
-2. (Goal based) I want to solve a problem and change something specific, so I
-   want to understand what I should change and how the system I need to change
-   works. I need to understand how other systems depend on this.
+我们的文档支持以下使用场景:
 
-To support the first case, we provide a single entrypoint for the whole
-documentation, which will be the first step in a tree of docs with links to
-parents and children:
+1. (探索式)我想理解 React Native 的工作原理,了解它的各个组成部分。我想自由探索。
+2. (目标式)我想解决一个问题、修改某个具体的东西,因此我需要弄清该改哪里、要改的那个子系统是怎么工作的。我还需要理解其他系统对它的依赖关系。
 
-- `<root>/__docs__/README.md` (with links to subsystems 1, 2, etc.)
-  - `Subsystem 1/__docs__/README.md` (with links to root and subsystems 1.1,
-    1.2, etc.)
-    - `Subsystem 1.1/__docs__/README.md` (with links to subsystem 1 and
-      subsystems 1.1.1, 1.1.2, etc.)
+为了支持第一种场景,我们为全部文档提供单一入口,它是文档树的第一步,文档之间通过链接互指父节点和子节点:
+
+- `<root>/__docs__/README.md`(链接到子系统 1、2 等)
+  - `Subsystem 1/__docs__/README.md`(链接到根文档以及子系统 1.1、1.2 等)
+    - `Subsystem 1.1/__docs__/README.md`(链接到子系统 1 以及子系统 1.1.1、1.1.2 等)
     - `Subsystem 1.2/__docs__/README.md`
   - `Subsystem 2/__docs__/README.md`
 
-This structure will make it possible for the user to navigate across the
-documentation organically, just following links within the documents themselves.
+这种结构让用户可以仅凭文档内部的链接,自然地在文档之间导航。
 
-To support the second use case, focusing on a specific subsystem, we will
-describe what are the relationships between that subsystem and others, to make
-sure that changes to its API are understood, and that usages of other subsystems
-are considered.
+为了支持第二种聚焦特定子系统的场景,我们会描述该子系统与其他子系统的关系,确保对其 API 的改动能被理解,同时也会考虑其他子系统的使用方式。
 
-The use of the `__docs__` directory (inspired by Python) has 2 goals:
+使用 `__docs__` 目录(灵感来自 Python)有两个目的:
 
-1. Make the documentation easy to find in the directory, by generally appearing
-   at the top of the directory (similar to `__tests__`).
-2. Grouping the documentation itself and its assets (images, diagrams, etc.).
+1. 让文档在目录中容易找到 —— 它通常出现在目录列表顶部(类似 `__tests__`)。
+2. 把文档本身及其素材(图片、图表等)归拢在一起。
 
-## Guidelines
+## 指南
 
-### Content
+### 内容
 
-Use [this template](./README-template.md) to write the documentation for a
-subsystem, adding the appropriate subsections depending on what that
-documentation requires. Only diverge from this structure if it is strictly
-necessary (removing unnecessary or empty sections is fine).
+为某个子系统编写文档时,请使用[这个模板](./README-template.md),并根据文档需要增删相应的小节。只有在确有必要时才偏离该结构(删除多余或空的小节没有问题)。
 
-Include supporting images and diagrams in the documentation. Those assets should
-be placed in the same `__docs__` directory as the `README.md` file. Use relative
-paths to link to the assets in those directories.
+请在文档中附上辅助性的图片和图表。这些素材应与 `README.md` 放在同一个 `__docs__` 目录中,并在文档里用相对路径引用。
 
-If you include Excalidraw diagrams, make sure to export an SVG image from the
-website using the "Embedded scene" option, so the original diagram is included
-in the file and can be re-uploaded to Excalidraw for future modifications. Use
-the extension `.excalidraw.svg` to signal this.
+如果使用 Excalidraw 图表,务必在网站上用"Embedded scene"选项导出 SVG,这样原始图表数据会包含在文件里,日后还能重新上传到 Excalidraw 继续修改。请用 `.excalidraw.svg` 扩展名来标识这一点。
 
-### Granularity
+### 粒度
 
-The level of granularity in the definition of the subsystems should be enough to
-correctly describe how React Native works, but not so detailed that any changes
-in the code require changes in the documentation.
+子系统定义的粒度应足以正确描述 React Native 的工作方式,但又不能细到代码稍有改动就得改文档的程度。
 
-Examples:
+示例:
 
-- Requires updating the docs:
-  - Adding a new major feature or API.
-  - Adding a new relevant dependency. Adding a dependency to helper functions
-    does not count as relevant.
-- Does NOT require updating the docs:
-  - Internal implementation details that do not change how the system works or
-    interacts with others.
-  - Making a minor API or feature change.
-  - Internal refactors, even if they create new modules or introduce
-    dependencies to external helpers.
+- 需要更新文档:
+  - 新增重要的特性或 API。
+  - 新增重要的依赖。给辅助函数加依赖不算重要。
+- 不需要更新文档:
+  - 不改变系统工作方式或对外交互方式的内部实现细节。
+  - 微小的 API 或特性调整。
+  - 内部重构,即便它创建了新模块或引入了对外部辅助工具的依赖。
 
-### Location
+### 位置
 
-When a specific subsystem exists in multiple directories (e.g.:
-platform-specific ones, C++, JavaScript, etc.):
+当某个子系统横跨多个目录时(例如:平台特定目录、C++、JavaScript 等):
 
-1. Choose one of them to place the canonical documentation (in order of
-   preference, JavaScript -> C++ -> platform).
-2. Create specific files in the rest linking to the canonical one.
+1. 选定其中一个目录放置权威(canonical)文档(优先级:JavaScript -> C++ -> 平台)。
+2. 在其余目录中创建指向权威文档的说明文件。
